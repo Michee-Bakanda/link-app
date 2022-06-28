@@ -26,10 +26,16 @@ const Signin = ({navigation}) => {
                 email,
                 password
             });
-            setLoading(false);
-            console.log("SIGN IN SUCCESS =>", data)
-            alert("Sign in successful")
+            if (data.error) {
+                alert(data.error)
+                setLoading(false)
+            }else{
+                setLoading(false);
+                console.log("SIGN IN SUCCESS =>", data)
+                alert("Sign in successful")
+            }
         } catch (error) {
+            alert("sign in failed")
             console.log(error)
             setLoading(false);
         }

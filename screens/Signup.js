@@ -27,9 +27,14 @@ const Signup = ({navigation}) => {
                 email,
                 password
             });
+           if (data.error) {
+               alert(data.error)
+               setLoading(false)
+           }else{
             setLoading(false);
             console.log("SIGN UP SUCCESS =>", data)
             alert("Sign up successful")
+           }
         } catch (error) {
             console.log(error)
             setLoading(false);
