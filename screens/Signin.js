@@ -6,30 +6,29 @@ import axios from 'axios'
 import CircleLogo from '../components/auth/CircleLogo'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-const Signup = ({navigation}) => {
+const Signin = ({navigation}) => {
 
-    const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
 
     const handleSubmit = async () => {
         setLoading(true)
-        if (!name || !email || !password) {
+        if ( !email || !password) {
             alert("all fields are required")
             setLoading(false)
             return;
         }
-        console.log("SIGN UP REQUEST =>", name, email, password)
+        console.log("SIGN UP REQUEST =>",  email, password)
         try {
-            const { data } = await axios.post('http://localhost:8000/api/signup', {
-                name,
+            const { data } = await axios.post('http://localhost:8000/api/signin', {
+            
                 email,
                 password
             });
             setLoading(false);
-            console.log("SIGN UP SUCCESS =>", data)
-            alert("Sign up successful")
+            console.log("SIGN IN SUCCESS =>", data)
+            alert("Sign in successful")
         } catch (error) {
             console.log(error)
             setLoading(false);
@@ -49,23 +48,24 @@ const Signup = ({navigation}) => {
                     color: "#333",
                     textAlign: "center"
                 }}>
-                    Sign Up
+                    Sign In
                 </Text>
                 {/* title */}
 
                 {/* user input */}
-                <UserInput name="NAME" value={name} setValue={setName} autoCapitalize="words" autoCorrect={false} />
                 <UserInput name="EMAIL" value={email} setValue={setEmail} autoCompleteType="email" keyboardType="email-address" />
                 <UserInput name="PASSWORD" value={password} setValue={setPassword} secureTextEntry={true} autoCompleteType="password" />
 
-                <SubmitButton title="sign up" handleSubmit={handleSubmit} loading={loading} />
+                <SubmitButton title="sign In" handleSubmit={handleSubmit} loading={loading} />
                 {/* <Text>{JSON.stringify({name,email,password},null, 4)}</Text> */}
                 {/* user input */}
 
                 {/* navigate to another screen */}
                    <Text style={{textAlign:"center"}}>
-                       Already Joined <Text onPress={()=> navigation.navigate("Sign In")} style={{color:"#ff2222"}}>Sign In</Text>
+                       Not yet registered ? <Text onPress={()=> navigation.navigate("Sign Up")} style={{color:"#ff2222"}}>Sign Up</Text>
                    </Text>
+
+                   <Text style={{color:"orange",textAlign:"center",marginTop:10}}>Forgot Password ?</Text>
                 {/* navigate to another screen */}
 
             </View>
@@ -74,4 +74,4 @@ const Signup = ({navigation}) => {
     )
 }
 
-export default Signup
+export default Signin
