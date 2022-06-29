@@ -1,5 +1,6 @@
 import React, {useContext} from 'react'
-import {View, Text} from "react-native"
+import {SafeAreaView, Text} from "react-native"
+import FooterTabs from '../components/nav/FooterTabs'
 import { AuthContext } from '../context/auth'
 
 
@@ -8,9 +9,10 @@ const Home = () => {
    const [state, setstate] = useContext(AuthContext)
 
   return (
-    <View>
+    <SafeAreaView style={{flex: 1, justifyContent: "space-between"}}>
         <Text>{JSON.stringify(state,null,4)}</Text>
-    </View>
+        <FooterTabs />
+    </SafeAreaView>
   )
 }
 

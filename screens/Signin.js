@@ -10,8 +10,8 @@ import { AuthContext } from '../context/auth'
 
 const Signin = ({navigation}) => {
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState("micbakanda@gmail.com")
+    const [password, setPassword] = useState("felicite")
     const [loading, setLoading] = useState(false)
     const [state, setState] = useContext(AuthContext)
 
