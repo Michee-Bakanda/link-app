@@ -1,16 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { Text, View } from 'react-native'
 import SubmitButton from '../components/auth/SubmitButton'
 import UserInput from '../components/auth/UserInput'
 import axios from 'axios'
 import CircleLogo from '../components/auth/CircleLogo'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../context/auth'
 
 const Signin = ({navigation}) => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
+    const [state, setState] = useContext(AuthContext)
 
     const handleSubmit = async () => {
         setLoading(true)
@@ -30,9 +33,15 @@ const Signin = ({navigation}) => {
                 alert(data.error)
                 setLoading(false)
             }else{
+                // save in context
+                setState(data)
+                // save response in async storage
+                await AsyncStorage.setItem('@auth', JSON.stringify(data))
                 setLoading(false);
                 console.log("SIGN IN SUCCESS =>", data)
                 alert("Sign in successful")
+                // redirect to Home
+                navigation.navigate("Home")
             }
         } catch (error) {
             alert("sign in failed")
@@ -40,6 +49,13 @@ const Signin = ({navigation}) => {
             setLoading(false);
         }
     }
+
+    const loadFromAsync = async()=>{
+        let data = await AsyncStorage.getItem("@auth")
+        console.log("from storage =>",data)
+    }
+
+    loadFromAsync()
 
     return (
         <KeyboardAwareScrollView>
