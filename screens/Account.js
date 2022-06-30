@@ -33,7 +33,7 @@ const Account = ({navigation}) => {
          setName(name)
          setEmail(email)
          setRole(role)
-        //  setImage(image)
+         setImage(image)
        }
     }, [state])
 
@@ -67,11 +67,20 @@ const Account = ({navigation}) => {
     let base64Image = `data:image/png;base64,${pickerResult.base64}`
     setUploadImage(base64Image)
     // send to backend for upload to cloudinary
-    const {data} = await axios.post('/upload-image', {
+    
+    const {data} = await axios.post('http://localhost:8000/api/upload-image', {
       image: base64Image
-    })
+    }   
+    );
     console.log("uploading response=>", data)
     // update user info in the context and async storage
+    const as = JSON.parse(await AsyncStorage.getItem("@auth")) //{user:{}}
+    as.user = data;
+    await AsyncStorage.setItem("@auth", JSON.stringify(as))
+    // update context
+    setState({...state, user: data})
+    setImage(data.image)
+    alert("profile image saved")
 
 
     }
