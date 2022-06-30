@@ -21,7 +21,7 @@ export default function ScreensNav() {
     return (
 
         // screenOptions={{ headerShown: false }}
-        <Stack.Navigator initialRouteName='Home' >
+        <Stack.Navigator initialRouteName='Signin' >
             {authenticated ? (<>
             <Stack.Screen name="Home" component={Home} options={{ title: "links daily", headerRight: () => <HeaderTab /> }} />
             <Stack.Screen name="Account" component={Account} options={{title:"Accounts", headerRight: ()=> <HeaderTab/>, headerBackTitle: "back"}}  />
