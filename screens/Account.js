@@ -1,5 +1,5 @@
 import React, { useState,useContext, useEffect } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, TouchableOpacity, Image } from 'react-native'
 import SubmitButton from '../components/auth/SubmitButton'
 import UserInput from '../components/auth/UserInput'
 import axios from 'axios'
@@ -8,15 +8,22 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../context/auth'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
+import * as ImagePicker from "expo-image-picker"
 
 const Account = ({navigation}) => {
 
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [role, setRole] = useState("")
-    const [image, setImage] = useState({})
+    const [image, setImage] = useState({
+      url:"",
+      public_id:"1"
+    })
     const [password, setPassword] = useState("felicite")
     const [loading, setLoading] = useState(false)
+    // image preview once we are uploading
+    const [uploadImage, setUploadImage] = useState(null)
+    // const [image, setImage] = useState({})
     // context
     const [state, setState] = useContext(AuthContext)
 
@@ -26,42 +33,47 @@ const Account = ({navigation}) => {
          setName(name)
          setEmail(email)
          setRole(role)
+        //  setImage(image)
        }
     }, [state])
 
     const handleSubmit = async () => {
-        setLoading(true)
-        if ( !email || !password) {
-            alert("all fields are required")
-            setLoading(false)
-            return;
-        }
-        console.log("SIGN UP REQUEST =>",  email, password)
-        try {
-            const { data } = await axios.post('http://localhost:8000/api/signin', {
-            
-                email,
-                password
-            });
-            if (data.error) {
-                alert(data.error)
-                setLoading(false)
-            }else{
-                // save in context
-                setState(data)
-                // save response in async storage
-                await AsyncStorage.setItem('@auth', JSON.stringify(data))
-                setLoading(false);
-                console.log("SIGN IN SUCCESS =>", data)
-                alert("Sign in successful")
-                // redirect to Home
-                navigation.navigate("Home")
-            }
-        } catch (error) {
-            alert("sign in failed")
-            console.log(error)
-            setLoading(false);
-        }
+        
+    }
+
+    const handleUpload = async () => {
+   
+    let permissionResult= await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (permissionResult.granted === false) {
+       alert("access needed")
+       console.log(permissionResult)
+       return;
+    }
+    // get image from image
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true
+    })
+
+    console.log("picker =>", pickerResult  )
+    
+    // if its not  cancelled
+    if (pickerResult.cancelled === true) {
+      return;
+    }
+
+    // save for preview
+    let base64Image = `data:image/png;base64,${pickerResult.base64}`
+    setUploadImage(base64Image)
+    // send to backend for upload to cloudinary
+    const {data} = await axios.post('/upload-image', {
+      image: base64Image
+    })
+    console.log("uploading response=>", data)
+    // update user info in the context and async storage
+
+
     }
 
     const loadFromAsync = async()=>{
@@ -77,12 +89,29 @@ const Account = ({navigation}) => {
 
                 <CircleLogo>
                     {image && image.url ? (
-                          <Image source={{uri: image.url}} style={{ width: 300, height: 300, marginVertical: 20 }} />
-                    ) : (
-                      <FontAwesome5 name="camera" size={25} />
+                          <Image source={{uri: image.url}} style={{ width: 190, height: 190, marginVertical: 20,borderRadius: 100 }} />
+                    ) : uploadImage ? 
+                         ( <Image source={{uri: uploadImage}} style={{ width: 190, height: 190, marginVertical: 20,borderRadius: 100 }} /> )
+                    : (
+                      <TouchableOpacity onPress={handleUpload}>
+                             <FontAwesome5 name="camera" size={25} color="orange" />
+                      </TouchableOpacity>
                     )
                     }
                 </CircleLogo>
+
+                {image && image.url ? (
+                    <TouchableOpacity onPress={handleUpload }>
+                        <FontAwesome5 name="camera" size={25} color="orange" style={{
+                          marginTop: -5,
+                          marginBottom: 10,
+                          alignSelf:"center"
+                        }} />
+                    </TouchableOpacity>
+                ):(
+                      <></>
+                )
+                }
 
 
                 {/* title */}
