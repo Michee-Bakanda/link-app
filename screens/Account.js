@@ -19,7 +19,7 @@ const Account = ({navigation}) => {
       url:"",
       public_id:"1"
     })
-    const [password, setPassword] = useState("felicite")
+    const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
     // image preview once we are uploading
     const [uploadImage, setUploadImage] = useState(null)
@@ -38,8 +38,24 @@ const Account = ({navigation}) => {
     }, [state])
 
     const handleSubmit = async () => {
-        
-    }
+        setLoading(true);
+        // api request
+        try {
+          const { data } = await axios.post("http://localhost:8000/api/update-password", { password });
+          if (data.error) {
+            alert(data.error);
+            setLoading(false);
+          } else {
+            alert("👍 Password updated");
+            setPassword("");
+            setLoading(false);
+          }
+        } catch (err) {
+          alert("Password update failed. Try again.");
+          console.log(err);
+          setLoading(false);
+        }
+      };
 
     const handleUpload = async () => {
    

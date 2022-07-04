@@ -38,7 +38,7 @@ useEffect(() => {
     const loadFromAsyncStorage = async()=>{
         let data = await AsyncStorage.getItem("@auth")
       let as = JSON.parse(data)
-      setState({...state, user: as.user, token: as.token})
+      // setState({...state, user: as.user, token: as.token})
     }
     loadFromAsyncStorage()
 }, [])

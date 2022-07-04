@@ -11,7 +11,8 @@ const Home = () => {
   return (
     <SafeAreaView style={{flex: 1, justifyContent: "space-between"}}>
       <Text>Home</Text>
-        <Text>{JSON.stringify(state,null,4)}</Text>
+        {/* <Text>{JSON.stringify(state,null,4)}</Text> */}
+        
         <FooterTabs />
     </SafeAreaView>
   )
