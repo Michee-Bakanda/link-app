@@ -87,7 +87,7 @@ const Signin = ({navigation}) => {
                        Not yet registered ? <Text onPress={()=> navigation.navigate("Sign Up")} style={{color:"#ff2222"}}>Sign Up</Text>
                    </Text>
 
-                   <Text style={{color:"orange",textAlign:"center",marginTop:10}}>Forgot Password ?</Text>
+                   <Text onPress={()=>navigation.navigate("ForgotPassword")} style={{color:"orange",textAlign:"center",marginTop:10}}>Forgot Password ?</Text>
                 {/* navigate to another screen */}
 
             </View>

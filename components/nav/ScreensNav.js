@@ -8,6 +8,7 @@ import HeaderTab from "./HeaderTab";
 import Account from "../../screens/Account";
 import Links from "../../screens/Links";
 import Post from "../../screens/Post";
+import ForgotPassword from "../../screens/ForgotPassword";
 
 
 const Stack = createNativeStackNavigator();
@@ -27,9 +28,12 @@ export default function ScreensNav() {
             <Stack.Screen name="Account" component={Account} options={{title:"Accounts", headerRight: ()=> <HeaderTab/>, headerBackTitle: "back"}}  />
             <Stack.Screen name="Links" component={Links} options={{title:"Links", headerRight: ()=> <HeaderTab/>, headerBackTitle: "back"}}  />
             <Stack.Screen name="Post" component={Post} options={{title:"Posts", headerRight: ()=> <HeaderTab/>, headerBackTitle: "back"}}  />
+
             </>) : 
             (<><Stack.Screen name="Sign In" component={Signin} options={{ headerShown: false }} />
-                <Stack.Screen name="Sign Up" component={Signup} options={{ headerShown: false }} /></>)}
+                <Stack.Screen name="Sign Up" component={Signup} options={{ headerShown: false }} />
+                <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{title:"Posts", headerRight: ()=> <HeaderTab/>, headerBackTitle: "back"}}  />
+                </>)}
         </Stack.Navigator>
 
 
