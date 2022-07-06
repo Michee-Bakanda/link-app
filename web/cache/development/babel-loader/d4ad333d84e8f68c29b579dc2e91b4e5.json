@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var API = \"http://localhost:8000/api\";","map":{"version":3,"names":["API"],"sources":["/home/michee/Documents/link/105_loading/client/confing.js"],"sourcesContent":["export const API = \"http://localhost:8000/api\";\n"],"mappings":"AAAA,OAAO,IAAMA,GAAG,GAAG,2BAAZ"},"metadata":{},"sourceType":"module"}
