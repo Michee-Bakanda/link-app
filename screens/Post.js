@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { SafeAreaView, ScrollView, Text, TextInput, View } from "react-native"
 // import {Text, View, } from 'react-native'
 import FooterTabs from '../components/nav/FooterTabs'
@@ -13,14 +13,18 @@ import urlRegex from "url-regex";
 // import PreviewCard from "../components/links/PreviewCard";
 import axios from "axios";
 import PreviewCard from "../components/Links/PreviewCard"
+import { LinkContext } from '../context/link'
+// import { NavigationContainer } from '@react-navigation/native'
 // import urlRegex from "url-regex";
 // import ogs from "@uehreka/open-graph-scraper-react-native";
 
 
 
-const Post = () => {
+const Post = ({navigation}) => {
 
   // context
+  const [links, setLinks] = useContext(LinkContext)
+  // const [links, setLinks] = useState([])
   //  const [links, setLinks] = useContext(LinkContext);
   // state
   const [link, setLink] = useState('')
@@ -39,7 +43,7 @@ const Post = () => {
           // console.log(results);
           if (results.success) {
             setUrlPreview(results);
-            alert("success")
+            // alert("success")
           }
           setLoading(false);
          
@@ -56,27 +60,26 @@ const Post = () => {
   }
 
   const handleSubmit = async () => {
-    // console.log("title and link => ", title, link, urlPreview);
+    // console.log("title and link =>", title, link, urlPreview)
     if (!link || !title) {
-      alert("Paste url and give it a nice title 😎");
+      alert("paste url and give it a nice title 😎")
       return;
     }
     try {
-      const { data } = await axios.post("/post-link", {
+      const {data} = await axios.post('http://localhost:8000/api/post-link',{
         link,
         title,
-        urlPreview,
+        urlPreview
       });
-      // console.log("data => ", data);
       // update link context
-      setLink([data, ...link]);
+      setLinks([data, ...links])
       setTimeout(() => {
-        alert("🎊 Link posted");
-        navigation.navigate("Home");
+         alert('link posted')
+         navigation.navigate("Home")
       }, 500);
-    } catch (err) {
-      console.log(err);
-      // alert(err)
+      console.log(data)
+    } catch (error) {
+      
     }
   };
 
