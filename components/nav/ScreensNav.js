@@ -9,6 +9,7 @@ import Account from "../../screens/Account";
 import Links from "../../screens/Links";
 import Post from "../../screens/Post";
 import ForgotPassword from "../../screens/ForgotPassword";
+import LinkView from "../../screens/LinkView"
 
 
 
@@ -29,6 +30,8 @@ export default function ScreensNav() {
             <Stack.Screen name="Account" component={Account} options={{title:"Accounts", headerRight: ()=> <HeaderTab/>, headerBackTitle: "back"}}  />
             <Stack.Screen name="Links" component={Links} options={{title:"Links", headerRight: ()=> <HeaderTab/>, headerBackTitle: "back"}}  />
             <Stack.Screen name="Post" component={Post} options={{title:"Posts", headerRight: ()=> <HeaderTab/>, headerBackTitle: "back"}}  />
+            <Stack.Screen name="LinkView" component={LinkView} options={{title:"LinkView", headerRight: ()=> <HeaderTab/>, headerBackTitle: "back"}}  />
+
 
             </>) : 
             (<><Stack.Screen name="Sign In" component={Signin} options={{ headerShown: false }} />
